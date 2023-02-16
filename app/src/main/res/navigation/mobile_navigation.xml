@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_profil">
+
+    <fragment
+        android:id="@+id/navigation_profil"
+        android:name="com.example.bodysway.ui.profile.ProfileFragment"
+        android:label="@string/title_Profil"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_acquisition"
+        android:name="com.example.bodysway.ui.acquisition.AcquisitionFragment"
+        android:label="@string/title_Acquisition"
+        tools:layout="@layout/fragment_acquisition" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.bodysway.ui.resultat.ResultatsFragment"
+        android:label="@string/title_resulats"
+        tools:layout="@layout/fragment_resultat" />
+</navigation>
