@@ -24,9 +24,9 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private AlertDialog delete_dialog;
+    private AlertDialog error_dialog;
     private EditText popUp_patientFirstName, popUp_patientLastName, popUp_patientBirthDate;
-    private Button popUp_valider, popUp_annuler, deleteButton, cancelButton;
-
+    private Button popUp_valider, popUp_annuler, deleteButton, cancelButton, errorButton;
     private DataBaseHandler db;
     private RecyclerView recyclerView;
     private P_recyclerViewAdapter adapter;
@@ -171,14 +171,38 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
         String lastName = popUp_patientLastName.getText().toString();
         String birth = popUp_patientBirthDate.getText().toString();
 
-        item.setPatientFirstName(firstName);
-        item.setPatientLastName(lastName);
-        item.setPatientBirthDate(birth);
+        if (!(firstName.isEmpty()) && !(lastName.isEmpty()) && !(birth.isEmpty())){
+            item.setPatientFirstName(firstName);
+            item.setPatientLastName(lastName);
+            item.setPatientBirthDate(birth);
 
-        db.Save(item);
-        db.close();
-        refreshdata();
+            db.Save(item);
+            db.close();
+            refreshdata();
+        } else {
+            StartErrorDialog();
+        }
     }
+
+    private void StartErrorDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View error_view = getLayoutInflater().inflate(R.layout.error_popup, null);
+
+        errorButton = (Button) error_view.findViewById(R.id.revenir);
+
+        dialogBuilder.setView(error_view);
+        error_dialog = dialogBuilder.create();
+        error_dialog.show();
+
+        errorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewContactDialog();
+                error_dialog.dismiss();
+            }
+        });
+    }
+
 
     private void refreshdata() {
         patientModules.clear();
