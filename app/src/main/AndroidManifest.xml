@@ -13,6 +13,10 @@
         android:theme="@style/Theme.BodySway"
         tools:targetApi="31">
         <activity
+            android:name=".Acceuil"
+            android:exported="false"
+            android:label="@string/title_activity_accueil" />
+        <activity
             android:name=".Home"
             android:exported="false"
             android:label="@string/title_activity_home" />
@@ -29,6 +33,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
     </application>
 
 </manifest>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="patient_FirstNames">
+        <item>Cédric</item>
+        <item>Maurine</item>
+        <item>Martin</item>
+    </string-array>
+
+    <string-array name="patient_LastNames">
+        <item>Cazanove</item>
+        <item>Bouzeid</item>
+        <item>Boniol</item>
+    </string-array>
+
+    <string-array name="patient_birth_date">
+        <item>10/02/1999</item>
+        <item>01/01/2000</item>
+        <item>25/05/1999</item>
+    </string-array>
+</resources>
