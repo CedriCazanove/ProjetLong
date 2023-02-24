@@ -9,12 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bodysway.Acquisition;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class AcquisitionListAdapter extends RecyclerView.Adapter<AcquisitionListAdapter.MyViewHolder> {
     private Context context;
@@ -46,24 +41,29 @@ public class AcquisitionListAdapter extends RecyclerView.Adapter<AcquisitionList
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         TextView outcomeDate;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             outcomeDate = itemView.findViewById(R.id.outcomeDate);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             listener.onClick(v, getAdapterPosition());
         }
+        @Override
+        public boolean onLongClick(View v) {
+            return listener.onLongClick(v, getAdapterPosition());
+        }
     }
 
     public interface RecyclerViewClickListener{
         void onClick(View v, int position);
 
-        void onLongClick(View v, int position);
+        boolean onLongClick(View v, int position);
     }
 }

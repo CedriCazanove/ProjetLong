@@ -89,7 +89,7 @@ public class AcquisitionFragment extends Fragment{
         txtRate = (TextView) binding.txtRate;
 
         lineChartX = binding.graphX;
-        lineChartX.getDescription().setText("X");
+        lineChartX.getDescription().setText("");
         lineChartX.getDescription().setTextColor(Color.RED);
         lineChartX.getDescription().setTextSize(10);
 
@@ -103,7 +103,7 @@ public class AcquisitionFragment extends Fragment{
         lineChartX.setData(dataX);
 
         lineChartZ = binding.graphZ;
-        lineChartZ.getDescription().setText("Z");
+        lineChartZ.getDescription().setText("");
         lineChartZ.getDescription().setTextColor(Color.RED);
         lineChartZ.getDescription().setTextSize(10);
 
@@ -183,7 +183,7 @@ public class AcquisitionFragment extends Fragment{
             ILineDataSet setX = dataX.getDataSetByIndex(0);
 
             if (setX == null) {
-                setX = createSet("");
+                setX = createSet("Axe transversal (m/s²)");
                 dataX.addDataSet(setX);
             }
 
@@ -203,7 +203,7 @@ public class AcquisitionFragment extends Fragment{
             ILineDataSet setZ = dataZ.getDataSetByIndex(0);
 
             if (setZ == null) {
-                setZ = createSet("");
+                setZ = createSet("Axe antéro-postérieur (m/s²)");
                 dataZ.addDataSet(setZ);
             }
 
@@ -382,7 +382,7 @@ public class AcquisitionFragment extends Fragment{
             Acquisition acquisition = new Acquisition("Cazanove", "Cedric", rate, time);
             Log.d(TAG, "Acquisition :\n" + acquisition.toString());
             acquisition.setMesures(mesureList);
-            String filename = acquisition.getDateString().replace(" ", "").replace(":", "").replace("/","") + "@" + acquisition.getNom() + "@" + acquisition.getPrenom() + ".xml";
+            String filename = "acquisition_" + acquisition.getDateString().replace(" ", "").replace(":", "").replace("/","") + "_" + acquisition.getNom() + "_" + acquisition.getPrenom() + ".xml";
             acquisition.setFilename(filename);
             File dir = getContext().getFilesDir();
             File fileData = new File(dir, filename);

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Body Sway</string>
     <string name="title_activity_home">Home</string>
+    <string name="title_activity_display_outcome">Display Outcome</string>
     <string name="title_Profil">Profil</string>
     <string name="title_Acquisition">Acquisition</string>
     <string name="title_resulats">Résultat</string>
