@@ -16,9 +16,12 @@ import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
+
+    private static final String TAG = "Accelerometer";
 
     ArrayList<PatientModule> patientModules = new ArrayList<>();
     private AlertDialog.Builder dialogBuilder;
@@ -71,12 +74,14 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
             String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
             String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
+            ArrayList<String> acquisitionRecorded = itemDataBase.get(i).getPatientAllAcquisition();
             int idRecorded = itemDataBase.get(i).getId();
 
             patientModule.setPatientFirstName(firstNameRecorded);
             patientModule.setPatientLastName(lastNameRecorded);
             patientModule.setPatientBirthDate(birthRecorded);
             patientModule.setPatientDescription(descriptionRecorded);
+            patientModule.setPatientAllAcquisition(acquisitionRecorded);
             patientModule.setId(idRecorded);
 
             patientModules.add(patientModule);
@@ -112,6 +117,15 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             public void onClick(View view) {
                 db = new DataBaseHandler(getApplicationContext());
                 int rowPosition = patientModules.get(position).getId();
+
+                File dir = getFilesDir();
+                ArrayList<String> patientAllAcquisition = patientModules.get(position).getPatientAllAcquisition();
+                for(int i = 0; i < patientAllAcquisition.size(); i++) {
+                    File fileData = new File(dir, patientAllAcquisition.get(i));
+                    boolean result = fileData.delete();
+                    Log.d(TAG, "Clear: " + result);
+                }
+
                 db.deleteItem(rowPosition);
                 refreshdata();
                 db.close();
@@ -217,12 +231,14 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
             String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
             String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
+            ArrayList<String> acquisitionRecorded = itemDataBase.get(i).getPatientAllAcquisition();
             int idRecorded = itemDataBase.get(i).getId();
 
             patientModule.setPatientFirstName(firstNameRecorded);
             patientModule.setPatientLastName(lastNameRecorded);
             patientModule.setPatientBirthDate(birthRecorded);
             patientModule.setPatientDescription(descriptionRecorded);
+            patientModule.setPatientAllAcquisition(acquisitionRecorded);
             patientModule.setId(idRecorded);
 
             patientModules.add(patientModule);

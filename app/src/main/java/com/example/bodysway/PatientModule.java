@@ -1,5 +1,9 @@
 package com.example.bodysway;
 
+import android.content.Context;
+
+import java.util.ArrayList;
+
 public class PatientModule {
     private String patientFirstName;
     private String patientLastName;
@@ -7,13 +11,20 @@ public class PatientModule {
     private int id;
     private String patientDescription;
 
-    public PatientModule(String patientFisrtName, String patientLastName, String patientBirthDate) {
-        this.patientFirstName = patientFisrtName;
-        this.patientLastName = patientLastName;
-        this.patientBirthDate = patientBirthDate;
-    }
+    private ArrayList<String> patientAllAcquisition;
 
     public PatientModule() {
+    }
+
+    public ArrayList<String> getPatientAllAcquisition() {
+        if (patientAllAcquisition == null) {
+            patientAllAcquisition = new ArrayList<>();
+        }
+        return patientAllAcquisition;
+    }
+
+    public void setPatientAllAcquisition(ArrayList<String> patientAllAcquisition) {
+        this.patientAllAcquisition = patientAllAcquisition;
     }
 
     public String getPatientFistName() {
@@ -53,5 +64,33 @@ public class PatientModule {
 
     public void setPatientDescription(String patientDescription) {
         this.patientDescription = patientDescription;
+    }
+
+    public PatientModule getPatientFromID(int id, Context context){
+        DataBaseHandler db = new DataBaseHandler(context);
+        final ArrayList<PatientModule> itemDataBase = db.getAllItems();
+        db.close();
+
+        PatientModule patientModule = new PatientModule();
+
+        for (int i = 0; i < itemDataBase.size(); i++) {
+
+            int idRecorded = itemDataBase.get(i).getId();
+
+            if (idRecorded == id) {
+                String firstNameRecorded = itemDataBase.get(i).getPatientFistName();
+                String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
+                String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
+                String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
+
+                patientModule.setPatientFirstName(firstNameRecorded);
+                patientModule.setPatientLastName(lastNameRecorded);
+                patientModule.setPatientBirthDate(birthRecorded);
+                patientModule.setPatientDescription(descriptionRecorded);
+                patientModule.setId(id);
+            }
+        }
+
+        return patientModule;
     }
 }

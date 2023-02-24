@@ -37,6 +37,8 @@ public class Acquisition implements Comparable<Object> {
 
     private String filename;
 
+    private int idPatient;
+
     private String nom;
 
     private String prenom;
@@ -54,14 +56,23 @@ public class Acquisition implements Comparable<Object> {
     public Acquisition() {
     }
 
-    public Acquisition(String nom, String prenom, int rate, int time) {
+    public Acquisition(String nom, String prenom, int id, int rate, int time) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         dateAcquisiton = new Date();
         dateString = formatter.format(this.dateAcquisiton);
+        this.idPatient = id;
         this.nom = nom;
         this.prenom = prenom;
         this.rate = rate;
         this.time = time;
+    }
+
+    public int getIdPatient() {
+        return idPatient;
+    }
+
+    public void setIdPatient(int idPatient) {
+        this.idPatient = idPatient;
     }
 
     public String getNom() {
