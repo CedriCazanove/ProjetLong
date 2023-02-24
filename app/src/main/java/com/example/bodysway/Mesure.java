@@ -33,6 +33,6 @@ public class Mesure implements Comparable<Object> {
     @Override
     public int compareTo(Object o) {
         Mesure f = (Mesure) o;
-        return (int)(this.x - f.getX());
+        return (int)((this.x * 1000000) - (f.getX() * 1000000));
     }
 }

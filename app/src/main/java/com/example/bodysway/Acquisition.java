@@ -130,13 +130,13 @@ public class Acquisition implements Comparable<Object> {
 
     public String toString() {
         return this.nom + " " + this.prenom
-                + "\nData : " + this.dateString
+                + "\nDate : " + this.dateString
                 + "\nRate : " + this.rate + " Hz"
                 + "\nTime : " + this.time + " s";
     }
 
     public void sortAcquisition() {
-        Collections.sort(mesures);
+        Collections.sort(this.mesures);
     }
 
     public LineData fromListToLineData() {
