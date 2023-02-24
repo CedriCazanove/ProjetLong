@@ -6,18 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-    <EditText
-        android:id="@+id/editTextPrenom2"
-        android:layout_width="200dp"
-        android:layout_height="292dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
+    <TextView
+        android:id="@+id/TextDescription"
+        android:layout_width="253dp"
+        android:layout_height="311dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="notes particulières sur le patient"
+        android:inputType="textMultiLine"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/note"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBirthday" />
+        app:layout_constraintTop_toBottomOf="@+id/TextBirthday" />
 
     <TextView
         android:id="@+id/note"
@@ -26,6 +25,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:text="Note :"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/birthday" />
@@ -38,6 +38,7 @@
         android:layout_marginTop="36dp"
         android:text="Nom :"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,6 +49,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="28dp"
         android:text="Prénom :"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nom" />
@@ -59,56 +61,57 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="28dp"
         android:text="Date de naissance :"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prenom" />
 
-    <EditText
-        android:id="@+id/editTextNom"
+    <TextView
+        android:id="@+id/TextNom"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Surname"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/nom"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextPrenom"
+    <TextView
+        android:id="@+id/TextPrenom"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/prenom"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNom" />
+        app:layout_constraintTop_toBottomOf="@+id/TextNom" />
 
-    <EditText
-        android:id="@+id/editTextBirthday"
+    <TextView
+        android:id="@+id/TextBirthday"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="date"
-        android:text="23/09/2000"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/birthday"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPrenom" />
+        app:layout_constraintTop_toBottomOf="@+id/TextPrenom" />
 
     <Button
-        android:id="@+id/saveButton"
+        android:id="@+id/modify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="140dp"
         android:layout_marginBottom="84dp"
-        android:text="Sauvegarder"
+        android:text="Modifier"
+        android:backgroundTint="#FF9800"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
