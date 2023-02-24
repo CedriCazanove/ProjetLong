@@ -5,6 +5,7 @@ public class PatientModule {
     private String patientLastName;
     private String patientBirthDate;
     private int id;
+    private String patientDescription;
 
     public PatientModule(String patientFisrtName, String patientLastName, String patientBirthDate) {
         this.patientFirstName = patientFisrtName;
@@ -44,5 +45,13 @@ public class PatientModule {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPatientDescription() {
+        return patientDescription;
+    }
+
+    public void setPatientDescription(String patientDescription) {
+        this.patientDescription = patientDescription;
     }
 }

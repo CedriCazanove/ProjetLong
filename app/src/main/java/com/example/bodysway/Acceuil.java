@@ -30,7 +30,6 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
     private DataBaseHandler db;
     private RecyclerView recyclerView;
     private P_recyclerViewAdapter adapter;
-    private SparseBooleanArray hasClicked = new SparseBooleanArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +55,7 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
         refreshdata();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void setPatientModules() {
         patientModules.clear();
 
@@ -70,11 +70,13 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             String firstNameRecorded = itemDataBase.get(i).getPatientFistName();
             String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
             String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
+            String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
             int idRecorded = itemDataBase.get(i).getId();
 
             patientModule.setPatientFirstName(firstNameRecorded);
             patientModule.setPatientLastName(lastNameRecorded);
             patientModule.setPatientBirthDate(birthRecorded);
+            patientModule.setPatientDescription(descriptionRecorded);
             patientModule.setId(idRecorded);
 
             patientModules.add(patientModule);
@@ -88,10 +90,8 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
     public void onItemClick(int position) {
         Intent intent = new Intent(Acceuil.this, Home.class);
 
-        intent.putExtra("FIRST_NAME", patientModules.get(position).getPatientFistName());// on garde en mémoire le nom du patient
-        intent.putExtra("LAST_NAME", patientModules.get(position).getPatientLastName());  // on garde en mémoire le nom du patient
-        intent.putExtra("BIRTH", patientModules.get(position).getPatientBirthDate()); // et sa date de naissance
-
+        int id = patientModules.get(position).getId();
+        intent.putExtra("ID", id);
         startActivity(intent);
     }
 
@@ -110,15 +110,12 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(Acceuil.this, Acceuil.class);
-
                 db = new DataBaseHandler(getApplicationContext());
                 int rowPosition = patientModules.get(position).getId();
                 db.deleteItem(rowPosition);
                 refreshdata();
                 db.close();
 
-                //startActivity(intent);
                 delete_dialog.dismiss();
             }
         });
@@ -204,6 +201,7 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void refreshdata() {
         patientModules.clear();
 
@@ -218,11 +216,13 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             String firstNameRecorded = itemDataBase.get(i).getPatientFistName();
             String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
             String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
+            String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
             int idRecorded = itemDataBase.get(i).getId();
 
             patientModule.setPatientFirstName(firstNameRecorded);
             patientModule.setPatientLastName(lastNameRecorded);
             patientModule.setPatientBirthDate(birthRecorded);
+            patientModule.setPatientDescription(descriptionRecorded);
             patientModule.setId(idRecorded);
 
             patientModules.add(patientModule);
