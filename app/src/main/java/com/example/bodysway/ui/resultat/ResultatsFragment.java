@@ -72,27 +72,27 @@ public class ResultatsFragment extends Fragment {
         String ret = "";
         int cntAcquisition = 0;
         ArrayList<String> patientAllAcquisition = patientModule.getPatientAllAcquisition();
-        for(int i = 0; i < patientAllAcquisition.size(); i++) {
-            ret += patientAllAcquisition.get(i) + "\n";
-            cntAcquisition++;
-            Acquisition acquisition = new Acquisition().getAcquisitionFromFile(patientAllAcquisition.get(i), getContext());
-            acquisitionList.add(acquisition);
+        if (patientAllAcquisition.size() > 0) {
+            for (int i = 0; i < patientAllAcquisition.size(); i++) {
+                if (!(patientAllAcquisition.get(i).isEmpty())) {
+                    ret += patientAllAcquisition.get(i) + "\n";
+                    cntAcquisition++;
+                    Acquisition acquisition = new Acquisition().getAcquisitionFromFile(patientAllAcquisition.get(i), getContext());
+                    acquisitionList.add(acquisition);
+                }
+            }
         }
-        Toast.makeText(getContext(), "file :\n" + ret, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "file :\n" + ret, Toast.LENGTH_SHORT).show();
+
         /*
         for (File f : dir.listFiles()) {
             if (f.getName().contains("acquisition")) {
-                if ((f.getName().contains(patientModule.getPatientFistName())) && (f.getName().contains(patientModule.getPatientLastName()))) {
-                    ret += f.getName() + "\n";
-                    cntAcquisition++;
-                    Acquisition acquisition = new Acquisition().getAcquisitionFromFile(f.getName(), getContext());
-                    acquisitionList.add(acquisition);
-                    File fileData = new File(dir, f.getName());
-                    boolean result = fileData.delete();
-                    Log.d(TAG, "Clear: " + result);
-                }
+                File fileData = new File(dir, f.getName());
+                boolean result = fileData.delete();
+                Log.d(TAG, "Clear: " + result);
             }
         }*/
+
         Collections.sort(acquisitionList);
         txtView.setText("Number of Acquisition : " + cntAcquisition);
 

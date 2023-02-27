@@ -1,6 +1,7 @@
 package com.example.bodysway.ui.acquisition;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -85,16 +87,17 @@ public class AcquisitionFragment extends Fragment{
 
     private DataBaseHandler db;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    private int idPatient;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AcquitisionViewModel acquisitionViewModel = new ViewModelProvider(this).get(AcquitisionViewModel.class);
 
         binding = FragmentAcquisitionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         Bundle extra = getActivity().getIntent().getExtras();
-        int id = extra.getInt("ID");
-        patientModule = new PatientModule().getPatientFromID(id, getContext());
+        idPatient = extra.getInt("ID");
+        patientModule = new PatientModule().getPatientFromID(idPatient, getContext());
 
         txtRate = (TextView) binding.txtRate;
 
@@ -402,7 +405,10 @@ public class AcquisitionFragment extends Fragment{
             db = new DataBaseHandler(getContext());
             db.updateDB(patientModule);
             db.close();
-            <
+
+            patientModule = new PatientModule().getPatientFromID(idPatient, getContext());
+            Log.d(TAG, "patient file : " + patientModule.getPatientAllAcquisition().get(0).toString());
+
             acquisition.setFilename(filename);
             File dir = getContext().getFilesDir();
             File fileData = new File(dir, filename);

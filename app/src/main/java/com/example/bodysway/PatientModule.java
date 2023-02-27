@@ -82,12 +82,14 @@ public class PatientModule {
                 String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
                 String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
                 String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
+                ArrayList<String> allAcquisition = itemDataBase.get(i).getPatientAllAcquisition();
 
                 patientModule.setPatientFirstName(firstNameRecorded);
                 patientModule.setPatientLastName(lastNameRecorded);
                 patientModule.setPatientBirthDate(birthRecorded);
                 patientModule.setPatientDescription(descriptionRecorded);
                 patientModule.setId(id);
+                patientModule.setPatientAllAcquisition(allAcquisition);
             }
         }
 

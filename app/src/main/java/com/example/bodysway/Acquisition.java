@@ -318,6 +318,9 @@ public class Acquisition implements Comparable<Object> {
     @Override
     public int compareTo(Object o) {
         Acquisition a = (Acquisition) o;
+        if (this.dateAcquisiton == null | a.getDateAcquisiton() == null) {
+            return -1;
+        }
         return a.getDateAcquisiton().compareTo(this.dateAcquisiton);
     }
 }
