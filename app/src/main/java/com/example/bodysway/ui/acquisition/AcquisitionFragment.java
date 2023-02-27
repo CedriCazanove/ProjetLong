@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,6 +89,8 @@ public class AcquisitionFragment extends Fragment{
     private DataBaseHandler db;
 
     private int idPatient;
+
+    private RadioGroup radioGroup;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AcquitisionViewModel acquisitionViewModel = new ViewModelProvider(this).get(AcquitisionViewModel.class);
@@ -325,16 +328,21 @@ public class AcquisitionFragment extends Fragment{
         pickTime.setMinValue(1);
         pickTime.setMaxValue(60);
 
+        radioGroup = setAnAcquisitionPopUpView.findViewById(R.id.rgEyes);
+        radioGroup.check(R.id.EO);
+
         btnStartAcquisition = (Button) setAnAcquisitionPopUpView.findViewById(R.id.btnStartAcquisiton);
         btnStartAcquisition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean eyesOpen = (radioGroup.getCheckedRadioButtonId() == R.id.EO);
+                Toast.makeText(getContext(), "eyes " + (eyesOpen ? "open" : "closed"), Toast.LENGTH_SHORT).show();
                 int time = 0;//s
                 int rate = 0;//Hz
                 time = pickTime.getValue();
                 rate = pickRate.getValue();
                 if (time > 0 && rate > 0) {
-                    startAcquisition(time, (int) ((1.0 / rate) * 1000000));
+                    startAcquisition(time, (int) ((1.0 / rate) * 1000000), eyesOpen);
                     updateColorBtnJobControl(stateAcceleremoterSensor);
                     dialogStartAcquisition.dismiss();
                 }
@@ -361,7 +369,7 @@ public class AcquisitionFragment extends Fragment{
      * @param time in s
      * @param periode in us
      */
-    private void startAcquisition(int time, int periode) {
+    private void startAcquisition(int time, int periode, boolean eyesOpen) {
         mesureList.clear();
         lineChartX.getData().removeDataSet(0);
         lineChartZ.getData().removeDataSet(0);
@@ -382,13 +390,13 @@ public class AcquisitionFragment extends Fragment{
                 }
                 startSensor(stateAcceleremoterSensor, 0);
                 updateColorBtnJobControl(stateAcceleremoterSensor);
-                saveData(time, (int)((1.0 / (1e-6 * periode))));
+                saveData(time, (int)((1.0 / (1e-6 * periode))), eyesOpen);
             }
         });
         threadChrono.start();
     }
 
-    private void saveData(int time, int rate) {
+    private void saveData(int time, int rate, boolean eyesOpen) {
 
 
         LineData dataToSaveX = lineChartX.getData();
@@ -397,6 +405,7 @@ public class AcquisitionFragment extends Fragment{
             Acquisition acquisition = new Acquisition(patientModule.getPatientLastName(), patientModule.getPatientFistName(), patientModule.getId(), rate, time);
             Log.d(TAG, "Acquisition :\n" + acquisition.toString());
             acquisition.setMesures(mesureList);
+            acquisition.setEyesOpen(eyesOpen);
             String filename = "acquisition_" + acquisition.getDateString().replace(" ", "").replace(":", "").replace("/","") + "_" + acquisition.getNom() + "_" + acquisition.getPrenom() + "_" + acquisition.getIdPatient() + ".xml";
 
             ArrayList<String> acquisitionPatient = patientModule.getPatientAllAcquisition();
@@ -406,8 +415,8 @@ public class AcquisitionFragment extends Fragment{
             db.updateDB(patientModule);
             db.close();
 
-            patientModule = new PatientModule().getPatientFromID(idPatient, getContext());
-            Log.d(TAG, "patient file : " + patientModule.getPatientAllAcquisition().get(0).toString());
+            //patientModule = new PatientModule().getPatientFromID(idPatient, getContext());
+            //Log.d(TAG, "patient file : " + patientModule.getPatientAllAcquisition().get(0).toString());
 
             acquisition.setFilename(filename);
             File dir = getContext().getFilesDir();
