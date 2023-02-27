@@ -34,8 +34,6 @@ android {
         }
         python {
             buildPython "/usr/bin/python"
-            buildPython "/Users/martinboniol/anaconda3/bin/python"
-            buildPython "/Users/nouhailaachehboune/opt/anaconda3/bin/python"
         }
         sourceSets {
             main {

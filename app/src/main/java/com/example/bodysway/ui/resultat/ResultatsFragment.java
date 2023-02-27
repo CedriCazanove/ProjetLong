@@ -22,6 +22,7 @@ import com.example.bodysway.Acquisition;
 import com.example.bodysway.AcquisitionListAdapter;
 import com.example.bodysway.DataBaseHandler;
 import com.example.bodysway.DisplayOutcome;
+import com.example.bodysway.PatientModule;
 import com.example.bodysway.R;
 import com.example.bodysway.databinding.FragmentResultatBinding;
 
@@ -52,6 +53,8 @@ public class ResultatsFragment extends Fragment {
 
     private AcquisitionListAdapter.RecyclerViewClickListener listener;
 
+    private PatientModule patientModule;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ResultatsViewModel notificationsViewModel =
@@ -60,22 +63,36 @@ public class ResultatsFragment extends Fragment {
         binding = FragmentResultatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        Bundle extra = getActivity().getIntent().getExtras();
+        int id = extra.getInt("ID");
+        patientModule = new PatientModule().getPatientFromID(id, getContext());
 
         dir = getContext().getFilesDir();
         txtView = binding.txtResultat;
         String ret = "";
         int cntAcquisition = 0;
-        for (File f : dir.listFiles()) {
-            if (f.getName().contains("acquisition")) {
-                ret += f.getName() + "\n";
-                cntAcquisition++;
-                Acquisition acquisition = new Acquisition().getAcquisitionFromFile(f.getName(), getContext());
-                acquisitionList.add(acquisition);
-                /*File fileData = new File(dir, f.getName());
-                boolean result = fileData.delete();
-                Log.d(TAG, "Clear: " + result);*/
+        ArrayList<String> patientAllAcquisition = patientModule.getPatientAllAcquisition();
+        if (patientAllAcquisition.size() > 0) {
+            for (int i = 0; i < patientAllAcquisition.size(); i++) {
+                if (!(patientAllAcquisition.get(i).isEmpty())) {
+                    ret += patientAllAcquisition.get(i) + "\n";
+                    cntAcquisition++;
+                    Acquisition acquisition = new Acquisition().getAcquisitionFromFile(patientAllAcquisition.get(i), getContext());
+                    acquisitionList.add(acquisition);
+                }
             }
         }
+        //Toast.makeText(getContext(), "file :\n" + ret, Toast.LENGTH_SHORT).show();
+
+        /*
+        for (File f : dir.listFiles()) {
+            if (f.getName().contains("acquisition")) {
+                File fileData = new File(dir, f.getName());
+                boolean result = fileData.delete();
+                Log.d(TAG, "Clear: " + result);
+            }
+        }*/
+
         Collections.sort(acquisitionList);
         txtView.setText("Number of Acquisition : " + cntAcquisition);
 

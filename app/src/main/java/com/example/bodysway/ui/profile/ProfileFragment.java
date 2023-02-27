@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment {
         descriptionText = binding.TextDescription;
         modifyButton = binding.modify;
 
-        patient = getPatientFromID(id);
+        patient = new PatientModule().getPatientFromID(id, getContext());
         modifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,33 +180,5 @@ public class ProfileFragment extends Fragment {
             patientModules.add(patientModule);
 
         }
-    }
-
-    public PatientModule getPatientFromID(int id){
-        db = new DataBaseHandler(getActivity().getApplicationContext());
-        final ArrayList<PatientModule> itemDataBase = db.getAllItems();
-        db.close();
-
-        PatientModule patientModule = new PatientModule();
-
-        for (int i = 0; i < itemDataBase.size(); i++) {
-
-            int idRecorded = itemDataBase.get(i).getId();
-
-            if (idRecorded == id) {
-                String firstNameRecorded = itemDataBase.get(i).getPatientFistName();
-                String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
-                String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
-                String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
-
-                patientModule.setPatientFirstName(firstNameRecorded);
-                patientModule.setPatientLastName(lastNameRecorded);
-                patientModule.setPatientBirthDate(birthRecorded);
-                patientModule.setPatientDescription(descriptionRecorded);
-                patientModule.setId(id);
-            }
-        }
-
-        return patientModule;
     }
 }

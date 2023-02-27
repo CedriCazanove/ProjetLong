@@ -1,6 +1,7 @@
 package com.example.bodysway.ui.acquisition;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -23,7 +25,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bodysway.Acquisition;
+import com.example.bodysway.DataBaseHandler;
 import com.example.bodysway.Mesure;
+import com.example.bodysway.PatientModule;
 import com.example.bodysway.R;
 import com.example.bodysway.databinding.FragmentAcquisitionBinding;
 import com.github.mikephil.charting.charts.LineChart;
@@ -79,12 +83,21 @@ public class AcquisitionFragment extends Fragment{
 
     private AlertDialog dialogStartAcquisition, dialogOutcome;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    private PatientModule patientModule;
+
+    private DataBaseHandler db;
+
+    private int idPatient;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AcquitisionViewModel acquisitionViewModel = new ViewModelProvider(this).get(AcquitisionViewModel.class);
 
         binding = FragmentAcquisitionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        Bundle extra = getActivity().getIntent().getExtras();
+        idPatient = extra.getInt("ID");
+        patientModule = new PatientModule().getPatientFromID(idPatient, getContext());
 
         txtRate = (TextView) binding.txtRate;
 
@@ -376,13 +389,26 @@ public class AcquisitionFragment extends Fragment{
     }
 
     private void saveData(int time, int rate) {
+
+
         LineData dataToSaveX = lineChartX.getData();
         LineData dataToSaveZ = lineChartZ.getData();
         if (dataToSaveX.getEntryCount() == dataToSaveZ.getEntryCount()) {
-            Acquisition acquisition = new Acquisition("Cazanove", "Cedric", rate, time);
+            Acquisition acquisition = new Acquisition(patientModule.getPatientLastName(), patientModule.getPatientFistName(), patientModule.getId(), rate, time);
             Log.d(TAG, "Acquisition :\n" + acquisition.toString());
             acquisition.setMesures(mesureList);
-            String filename = "acquisition_" + acquisition.getDateString().replace(" ", "").replace(":", "").replace("/","") + "_" + acquisition.getNom() + "_" + acquisition.getPrenom() + ".xml";
+            String filename = "acquisition_" + acquisition.getDateString().replace(" ", "").replace(":", "").replace("/","") + "_" + acquisition.getNom() + "_" + acquisition.getPrenom() + "_" + acquisition.getIdPatient() + ".xml";
+
+            ArrayList<String> acquisitionPatient = patientModule.getPatientAllAcquisition();
+            acquisitionPatient.add(filename);
+            patientModule.setPatientAllAcquisition(acquisitionPatient);
+            db = new DataBaseHandler(getContext());
+            db.updateDB(patientModule);
+            db.close();
+
+            patientModule = new PatientModule().getPatientFromID(idPatient, getContext());
+            Log.d(TAG, "patient file : " + patientModule.getPatientAllAcquisition().get(0).toString());
+
             acquisition.setFilename(filename);
             File dir = getContext().getFilesDir();
             File fileData = new File(dir, filename);

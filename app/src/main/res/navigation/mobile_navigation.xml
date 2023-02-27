@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_acquisition" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_resultats"
         android:name="com.example.bodysway.ui.resultat.ResultatsFragment"
         android:label="@string/title_resulats"
         tools:layout="@layout/fragment_resultat" />

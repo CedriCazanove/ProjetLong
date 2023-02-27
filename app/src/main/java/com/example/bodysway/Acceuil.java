@@ -2,6 +2,7 @@ package com.example.bodysway;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,14 +12,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
+
+    private static final String TAG = "Accelerometer";
 
     ArrayList<PatientModule> patientModules = new ArrayList<>();
     private AlertDialog.Builder dialogBuilder;
@@ -33,6 +38,9 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acceuil);
 
@@ -71,12 +79,14 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
             String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
             String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
+            ArrayList<String> acquisitionRecorded = itemDataBase.get(i).getPatientAllAcquisition();
             int idRecorded = itemDataBase.get(i).getId();
 
             patientModule.setPatientFirstName(firstNameRecorded);
             patientModule.setPatientLastName(lastNameRecorded);
             patientModule.setPatientBirthDate(birthRecorded);
             patientModule.setPatientDescription(descriptionRecorded);
+            patientModule.setPatientAllAcquisition(acquisitionRecorded);
             patientModule.setId(idRecorded);
 
             patientModules.add(patientModule);
@@ -84,6 +94,14 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
         db.close();
         adapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -112,6 +130,15 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             public void onClick(View view) {
                 db = new DataBaseHandler(getApplicationContext());
                 int rowPosition = patientModules.get(position).getId();
+
+                File dir = getFilesDir();
+                ArrayList<String> patientAllAcquisition = patientModules.get(position).getPatientAllAcquisition();
+                for(int i = 0; i < patientAllAcquisition.size(); i++) {
+                    File fileData = new File(dir, patientAllAcquisition.get(i));
+                    boolean result = fileData.delete();
+                    Log.d(TAG, "Clear: " + result);
+                }
+
                 db.deleteItem(rowPosition);
                 refreshdata();
                 db.close();
@@ -217,12 +244,14 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
             String lastNameRecorded = itemDataBase.get(i).getPatientLastName();
             String birthRecorded = itemDataBase.get(i).getPatientBirthDate();
             String descriptionRecorded = itemDataBase.get(i).getPatientDescription();
+            ArrayList<String> acquisitionRecorded = itemDataBase.get(i).getPatientAllAcquisition();
             int idRecorded = itemDataBase.get(i).getId();
 
             patientModule.setPatientFirstName(firstNameRecorded);
             patientModule.setPatientLastName(lastNameRecorded);
             patientModule.setPatientBirthDate(birthRecorded);
             patientModule.setPatientDescription(descriptionRecorded);
+            patientModule.setPatientAllAcquisition(acquisitionRecorded);
             patientModule.setId(idRecorded);
 
             patientModules.add(patientModule);

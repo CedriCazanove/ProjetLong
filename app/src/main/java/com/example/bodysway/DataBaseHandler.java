@@ -31,7 +31,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 Constants.PATIENT_FIRSTNAME + " STRING," +
                 Constants.PATIENT_LASTNAME + " STRING," +
                 Constants.PATIENT_BIRTH + " STRING," +
-                Constants.PATIENT_DESCRIPTION + " STRING) ;";
+                Constants.PATIENT_DESCRIPTION + " STRING," +
+                Constants.PATIENT_ACQUISITION + " STRING) ;";
 
         db.execSQL(TABLEPATIENT);
     }
@@ -52,6 +53,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constants.PATIENT_LASTNAME, item.getPatientLastName());
         values.put(Constants.PATIENT_BIRTH, item.getPatientBirthDate());
         values.put(Constants.PATIENT_DESCRIPTION, item.getPatientDescription());
+        values.put(Constants.PATIENT_ACQUISITION, convertArrayToString(item.getPatientAllAcquisition()));
 
         db.insert(Constants.TABLE_NAME, null, values);
     }
@@ -61,7 +63,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db_list.clear();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(Constants.TABLE_NAME, new String[]{Constants.KEY_ID, Constants.PATIENT_FIRSTNAME,Constants.PATIENT_LASTNAME,Constants.PATIENT_BIRTH, Constants.PATIENT_DESCRIPTION},null,null, null, null,null);
+        Cursor cursor = db.query(Constants.TABLE_NAME, new String[]{Constants.KEY_ID, Constants.PATIENT_FIRSTNAME,Constants.PATIENT_LASTNAME,Constants.PATIENT_BIRTH, Constants.PATIENT_DESCRIPTION, Constants.PATIENT_ACQUISITION},null,null, null, null,null);
 
         if (cursor.moveToFirst()){
             do {
@@ -70,6 +72,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 item.setPatientLastName(String.valueOf(cursor.getString(2)));
                 item.setPatientBirthDate(String.valueOf(cursor.getString(3)));
                 item.setPatientDescription(String.valueOf(cursor.getString(4)));
+                item.setPatientAllAcquisition(convertStringToArray(String.valueOf(cursor.getString(5))));
                 item.setId(cursor.getInt(cursor.getColumnIndex(Constants.KEY_ID)));
 
                 db_list.add(item);
@@ -95,7 +98,31 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constants.PATIENT_LASTNAME, patientModule.getPatientLastName());
         values.put(Constants.PATIENT_BIRTH, patientModule.getPatientBirthDate());
         values.put(Constants.PATIENT_DESCRIPTION, patientModule.getPatientDescription());
+        values.put(Constants.PATIENT_ACQUISITION, convertArrayToString(patientModule.getPatientAllAcquisition()));
 
         db.update(Constants.TABLE_NAME, values, Constants.KEY_ID + " = " + patientModule.getId(), null);
+    }
+
+    public static String strSeparator = "__,__";
+    public static String convertArrayToString(ArrayList<String> array){
+        String str = "";
+        if (array != null) {
+            for (int i = 0; i < array.size(); i++) {
+                str = str + array.get(i);
+                // Do not append comma at the end of last element
+                if (i < array.size() - 1) {
+                    str = str + strSeparator;
+                }
+            }
+        }
+        return str;
+    }
+    public static ArrayList<String> convertStringToArray(String str){
+        ArrayList<String> arrayAcquisition = new ArrayList<>();
+        String[] arr = str.split(strSeparator);
+        for(int i = 0; i < arr.length; i++) {
+            arrayAcquisition.add(arr[i]);
+        }
+        return arrayAcquisition;
     }
 }
