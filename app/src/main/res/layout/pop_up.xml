@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:background="@drawable/rounded_corner">
 
     <ImageView
         android:id="@+id/newlisticon"
@@ -62,7 +61,7 @@
     <Button
         android:id="@+id/savebutton"
         android:text="Valider"
-        android:backgroundTint="#85E416"
+        android:backgroundTint="#FF9800"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_width="wrap_content"

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -124,6 +126,7 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
 
         dialogBuilder.setView(delete_view);
         delete_dialog = dialogBuilder.create();
+        delete_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         delete_dialog.show();
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +172,7 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
 
         dialogBuilder.setView(popUp_view);
         dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         popUp_valider.setOnClickListener(new View.OnClickListener() {
@@ -217,6 +221,7 @@ public class Acceuil extends AppCompatActivity implements RecyclerViewInterface{
 
         dialogBuilder.setView(error_view);
         error_dialog = dialogBuilder.create();
+        error_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         error_dialog.show();
 
         errorButton.setOnClickListener(new View.OnClickListener() {

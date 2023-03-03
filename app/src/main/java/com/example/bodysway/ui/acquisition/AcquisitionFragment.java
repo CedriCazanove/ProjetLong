@@ -144,7 +144,7 @@ public class AcquisitionFragment extends Fragment{
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         startSensor(stateAcceleremoterSensor, accelerometer.getMaxDelay());
         updateColorBtnJobControl(stateAcceleremoterSensor);
-        txtRate.setText("current rate : " + (int) (1 / (1e-6 * accelerometer.getMaxDelay())) + " Hz");
+        txtRate.setText("Fréquence d'acquisition : " + (int) (1 / (1e-6 * accelerometer.getMaxDelay())) + " Hz");
         btnSetAcquisition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,7 +191,7 @@ public class AcquisitionFragment extends Fragment{
         float ax = event.values[0];
         float ay = event.values[1];
         float az = event.values[2];
-        textView.setText("time: " + timeSpend);
+        textView.setText("Durée de l'acquisition: " + timeSpend);
 
         Mesure mesure = new Mesure();
         if (dataX != null) {
@@ -262,7 +262,7 @@ public class AcquisitionFragment extends Fragment{
     public void onResume() {
         stateAcceleremoterSensor = false;
         updateColorBtnJobControl(stateAcceleremoterSensor);
-        txtRate.setText("current rate : " + (int) (1 / (1e-6 * accelerometer.getMaxDelay())) + " Hz");
+        txtRate.setText("Fréquence d'acquisition : " + (int) (1 / (1e-6 * accelerometer.getMaxDelay())) + " Hz");
         sensorManager.registerListener(listener, accelerometer, accelerometer.getMaxDelay());
         super.onResume();
     }
@@ -375,7 +375,7 @@ public class AcquisitionFragment extends Fragment{
         lineChartZ.getData().removeDataSet(0);
 
 
-        txtRate.setText("current rate : " + (int)((1.0 / (1e-6 * periode))) + " Hz");
+        txtRate.setText("Fréquence d'acquisition : " + (int)((1.0 / (1e-6 * periode))) + " Hz");
 
         Thread threadChrono = new Thread(new Runnable() {
             @Override
