@@ -11,7 +11,7 @@ public class Constants {
     public static final String PATIENT_LASTNAME = "patient_LastName";
     public static final String PATIENT_BIRTH = "patient_Birth";
     public static final String PATIENT_DESCRIPTION = "patient_Description";
-    public  static final String PATIENT_ACQUISITION = "patient_acquisition";
+    public static final String PATIENT_ACQUISITION = "patient_acquisition";
 
 
 }

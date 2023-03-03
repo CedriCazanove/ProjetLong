@@ -33,7 +33,7 @@ android {
             version "3.8"
         }
         python {
-            buildPython "/usr/bin/python"
+            buildPython "C:/Users/Maurine/AppData/Local/Microsoft/WindowsApps/python.exe"
         }
         sourceSets {
             main {
