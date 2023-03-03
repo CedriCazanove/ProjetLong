@@ -53,6 +53,8 @@ public class Acquisition implements Comparable<Object> {
 
     private int time;
 
+    private boolean eyesOpen = true;
+
     public Acquisition() {
     }
 
@@ -139,9 +141,18 @@ public class Acquisition implements Comparable<Object> {
         this.time = time;
     }
 
+    public boolean isEyesOpen() {
+        return eyesOpen;
+    }
+
+    public void setEyesOpen(boolean eyesOpen) {
+        this.eyesOpen = eyesOpen;
+    }
+
     public String toString() {
         return this.nom + " " + this.prenom
                 + "\nDate : " + this.dateString
+                + "\nEyes " + (this.eyesOpen ? "open" : "closed")
                 + "\nRate : " + this.rate + " Hz"
                 + "\nTime : " + this.time + " s";
     }
@@ -206,6 +217,10 @@ public class Acquisition implements Comparable<Object> {
             serializer.startTag(null, "time");
             serializer.text(String.valueOf(this.time));
             serializer.endTag(null, "time");
+
+            serializer.startTag(null, "eyesOpen");
+            serializer.text(String.valueOf(this.eyesOpen));
+            serializer.endTag(null, "eyesOpen");
 
             for(int i = 0; i < mesures.size(); i++) {
                 serializer.startTag(null, "measure");
@@ -276,6 +291,10 @@ public class Acquisition implements Comparable<Object> {
             
             items = dom.getElementsByTagName("time");
             acquisition.setTime(Integer.parseInt(items.item(0).getTextContent()));
+
+            items = dom.getElementsByTagName("eyesOpen");
+            acquisition.setEyesOpen(Boolean.valueOf(items.item(0).getTextContent()));
+            Log.d(TAG, "eyesOpen : " + items.item(0).getTextContent());
 
             //get all measurement tags
             items = dom.getElementsByTagName("measure");

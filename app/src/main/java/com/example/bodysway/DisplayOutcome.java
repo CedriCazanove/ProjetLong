@@ -95,7 +95,7 @@ public class DisplayOutcome extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras.containsKey("acquisition_filename")) {
             String filename = extras.get("acquisition_filename").toString();
-            textView.setText(filename);
+            //textView.setText(filename);
 
             acquisition = new Acquisition().getAcquisitionFromFile(filename, this);
             textView.setText(acquisition.toString());

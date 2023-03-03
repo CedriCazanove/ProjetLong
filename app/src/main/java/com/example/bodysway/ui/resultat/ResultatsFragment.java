@@ -55,6 +55,10 @@ public class ResultatsFragment extends Fragment {
 
     private PatientModule patientModule;
 
+    private ArrayList<String> patientAllAcquisition;
+
+    private DataBaseHandler db;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ResultatsViewModel notificationsViewModel =
@@ -71,7 +75,7 @@ public class ResultatsFragment extends Fragment {
         txtView = binding.txtResultat;
         String ret = "";
         int cntAcquisition = 0;
-        ArrayList<String> patientAllAcquisition = patientModule.getPatientAllAcquisition();
+        patientAllAcquisition = patientModule.getPatientAllAcquisition();
         if (patientAllAcquisition.size() > 0) {
             for (int i = 0; i < patientAllAcquisition.size(); i++) {
                 if (!(patientAllAcquisition.get(i).isEmpty())) {
@@ -84,14 +88,15 @@ public class ResultatsFragment extends Fragment {
         }
         //Toast.makeText(getContext(), "file :\n" + ret, Toast.LENGTH_SHORT).show();
 
-        /*
+/*
         for (File f : dir.listFiles()) {
             if (f.getName().contains("acquisition")) {
                 File fileData = new File(dir, f.getName());
                 boolean result = fileData.delete();
                 Log.d(TAG, "Clear: " + result);
             }
-        }*/
+        }
+ */
 
         Collections.sort(acquisitionList);
         txtView.setText("Number of Acquisition : " + cntAcquisition);
@@ -137,10 +142,17 @@ public class ResultatsFragment extends Fragment {
                         boolean result = fileData.delete();
                         Log.d(TAG,"Clear: " + result);
                         if (result) {
+                            patientAllAcquisition.remove(acquisitionList.get(position).getFilename());
                             acquisitionList.remove(acquisitionList.get(position));
+                            patientModule.setPatientAllAcquisition(patientAllAcquisition);
+
                             Toast.makeText(getContext(), "Acquisition deleted successfully", Toast.LENGTH_SHORT).show();
                             acquisitionListAdapter.notifyDataSetChanged();
-                            txtView.setText("Number of Acquisition : " + dir.listFiles().length);
+
+                            txtView.setText("Number of Acquisition : " + patientAllAcquisition.size());
+                            db = new DataBaseHandler(getContext());
+                            db.updateDB(patientModule);
+                            db.close();
                         } else {
                             Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
