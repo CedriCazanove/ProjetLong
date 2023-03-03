@@ -4,6 +4,8 @@ import static android.os.Build.VERSION_CODES.R;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +36,6 @@ public class ProfileFragment extends Fragment {
     private EditText editFirstName, editLastName, editBirthDate, editDescription;
     private TextView firstNameText, lastNameText, birthDateText, descriptionText;
     private DataBaseHandler db;
-    private PatientModule patientModule;
     private Button modifyButton, modifier, annuler;
     private AlertDialog.Builder setModificationDialog;
     private AlertDialog modifyDialog;
@@ -77,7 +78,12 @@ public class ProfileFragment extends Fragment {
         firstNameText.setText(patient.getPatientFistName());
         lastNameText.setText(patient.getPatientLastName());
         birthDateText.setText(patient.getPatientBirthDate());
-        descriptionText.setText(patient.getPatientDescription());
+        if (patient.getPatientDescription() == "null"){
+            descriptionText.setText("Rien à signaler");
+        } else {
+            descriptionText.setText(patient.getPatientDescription());
+        }
+
 
         return root;
     }
@@ -89,6 +95,7 @@ public class ProfileFragment extends Fragment {
 
         setModificationDialog.setView(modify_view);
         modifyDialog = setModificationDialog.create();
+        modifyDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         modifyDialog.show();
 
         editFirstName = modify_view.findViewById(com.example.bodysway.R.id.editTextPrenom);

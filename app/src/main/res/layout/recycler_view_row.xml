@@ -30,7 +30,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_profile_48p" />
+                app:srcCompat="@drawable/profil_de_lutilisateur"
+                app:tint="#FF9800" />
 
             <TextView
                 android:id="@+id/First_Name"

@@ -13,6 +13,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/bottom_nav_color"
+        app:layout_constraintStart_toEndOf="@+id/chooseRate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <NumberPicker
@@ -22,8 +24,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/bottom_nav_color"
         app:layout_constraintBottom_toTopOf="@+id/rgEyes"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/chooseTime"
         app:layout_constraintTop_toBottomOf="@+id/pickTheRate" />
 
     <Button
@@ -37,6 +41,8 @@
         android:textAlignment="center"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
+        android:backgroundTint="#FF9800"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnCancelSettingAcquisition" />
@@ -48,10 +54,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:text="Cancel"
+        android:text="Annulé"
         android:textAlignment="center"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
+        android:backgroundTint="#FAF9F9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnStartAcquisiton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -63,7 +71,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="64dp"
-        android:text="choose the rate (Hz)"
+        android:text="Fréquence d'acquisition (Hz)"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/chooseTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -74,7 +84,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="60dp"
-        android:text="choose the time (s)"
+        android:text="Temps d'acquisition (s)"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseRate" />
 
@@ -98,9 +110,10 @@
             android:layout_gravity="center"
             android:checked="false"
             android:padding="4dp"
-            android:text="eyes open"
+            android:text="Yeux ouverts"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:buttonTint="@color/bottom_nav_color"/>
 
         <!--adding a radio button -->
         <RadioButton
@@ -110,9 +123,10 @@
             android:layout_gravity="center"
             android:checked="false"
             android:padding="4dp"
-            android:text="eyes closed"
+            android:text="Yeux fermés"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:buttonTint="@color/bottom_nav_color"/>
 
     </RadioGroup>
 
