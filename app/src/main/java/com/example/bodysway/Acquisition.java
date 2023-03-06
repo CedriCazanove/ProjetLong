@@ -152,9 +152,9 @@ public class Acquisition implements Comparable<Object> {
     public String toString() {
         return this.nom + " " + this.prenom
                 + "\nDate : " + this.dateString
-                + "\nEyes " + (this.eyesOpen ? "open" : "closed")
-                + "\nRate : " + this.rate + " Hz"
-                + "\nTime : " + this.time + " s";
+                + "\nYeux " + (this.eyesOpen ? "ouverts" : "fermés")
+                + "\nFréquence : " + this.rate + " Hz"
+                + "\nDurée : " + this.time + " s";
     }
 
     public void sortAcquisition() {

@@ -99,7 +99,7 @@ public class ResultatsFragment extends Fragment {
  */
 
         Collections.sort(acquisitionList);
-        txtView.setText("Number of Acquisition : " + cntAcquisition);
+        txtView.setText("Nombre d'acquisition : " + cntAcquisition);
 
         recyclerView = binding.outcomeRecyView;
 
@@ -146,15 +146,15 @@ public class ResultatsFragment extends Fragment {
                             acquisitionList.remove(acquisitionList.get(position));
                             patientModule.setPatientAllAcquisition(patientAllAcquisition);
 
-                            Toast.makeText(getContext(), "Acquisition deleted successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Acquisition supprimée avec succès", Toast.LENGTH_SHORT).show();
                             acquisitionListAdapter.notifyDataSetChanged();
 
-                            txtView.setText("Number of Acquisition : " + patientAllAcquisition.size());
+                            txtView.setText("Nombre d'acquisition : " + patientAllAcquisition.size());
                             db = new DataBaseHandler(getContext());
                             db.updateDB(patientModule);
                             db.close();
                         } else {
-                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Erreur", Toast.LENGTH_SHORT).show();
                         }
                         delete_dialog.dismiss();
                     }

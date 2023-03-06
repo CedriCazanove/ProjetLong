@@ -33,7 +33,7 @@ public class AcquisitionListAdapter extends RecyclerView.Adapter<AcquisitionList
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Acquisition acquisition = list.get(position);
-        holder.outcomeDate.setText(acquisition.getDateString() + " at " + acquisition.getRate() + " Hz and during " + acquisition.getTime() + "s");
+        holder.outcomeDate.setText(acquisition.getDateString() + " (" + acquisition.getRate() + " Hz, " + acquisition.getTime() + "s)");
     }
 
     @Override

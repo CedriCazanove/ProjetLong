@@ -336,7 +336,7 @@ public class AcquisitionFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 boolean eyesOpen = (radioGroup.getCheckedRadioButtonId() == R.id.EO);
-                Toast.makeText(getContext(), "eyes " + (eyesOpen ? "open" : "closed"), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "eyes " + (eyesOpen ? "open" : "closed"), Toast.LENGTH_SHORT).show();
                 int time = 0;//s
                 int rate = 0;//Hz
                 time = pickTime.getValue();
