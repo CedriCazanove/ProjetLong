@@ -1,15 +1,10 @@
 package com.example.bodysway;
 
-import android.app.DownloadManager;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
@@ -30,17 +24,10 @@ import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.ScatterChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +44,7 @@ public class DisplayOutcome extends AppCompatActivity {
 
     private Button downloadButton;
 
-    private ImageView imageView;
+    private ImageView graphPythonAcc, graphPythonPos;
 
     private String xData, yData;
     private Acquisition acquisition;
@@ -86,7 +73,8 @@ public class DisplayOutcome extends AppCompatActivity {
 
         // Partie affichage
         textView = (TextView) findViewById(R.id.txtDisplayOutcome);
-        imageView = (ImageView) findViewById(R.id.graphDataPython);
+        graphPythonAcc = (ImageView) findViewById(R.id.graphDataPython);
+        graphPythonPos = (ImageView) findViewById(R.id.graphDataPython2);
         downloadButton = (Button) findViewById(R.id.downloadButton);
 
         xData = "";
@@ -113,13 +101,21 @@ public class DisplayOutcome extends AppCompatActivity {
 
             final Python py = Python.getInstance();
             PyObject pyObject = py.getModule("myscript");
-            PyObject obj = pyObject.callAttr("main", xData, yData);
+            PyObject obj = pyObject.callAttr("main", xData, yData);//, acquisition.getRate());
 
             String str = obj.toString();
 
             byte data[] = android.util.Base64.decode(str, Base64.DEFAULT);
             Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-            imageView.setImageBitmap(bmp);
+            graphPythonAcc.setImageBitmap(bmp);
+
+            PyObject obj2 = pyObject.callAttr("position", xData, yData, acquisition.getRate());
+
+            String str2 = obj2.toString();
+
+            byte data2[] = android.util.Base64.decode(str2, Base64.DEFAULT);
+            Bitmap bmp2 = BitmapFactory.decodeByteArray(data2, 0, data2.length);
+            graphPythonPos.setImageBitmap(bmp2);
         }
 
         // Partie bouton download the file

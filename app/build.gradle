@@ -23,6 +23,7 @@ android {
                 install "opencv-python"
                 install "matplotlib"
                 install "Pillow"
+                install "scipy"
             }
         }
 
