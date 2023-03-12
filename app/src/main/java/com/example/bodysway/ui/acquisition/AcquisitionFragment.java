@@ -104,6 +104,7 @@ public class AcquisitionFragment extends Fragment{
 
         txtRate = (TextView) binding.txtRate;
 
+        //Graphique qui gere l'affichage en direct de l'acceleration sur l'axe X du telephone
         lineChartX = binding.graphX;
         lineChartX.getDescription().setText("");
         lineChartX.getDescription().setTextColor(Color.RED);
@@ -118,6 +119,7 @@ public class AcquisitionFragment extends Fragment{
         dataX.setValueTextColor(Color.WHITE);
         lineChartX.setData(dataX);
 
+        //Graphique qui gere l'affichage en direct de l'acceleration sur l'axe Z du telephone
         lineChartZ = binding.graphZ;
         lineChartZ.getDescription().setText("");
         lineChartZ.getDescription().setTextColor(Color.RED);
@@ -132,6 +134,7 @@ public class AcquisitionFragment extends Fragment{
         dataZ.setValueTextColor(Color.WHITE);
         lineChartZ.setData(dataZ);
 
+        //Commencer l'affichage de point
         startPlot();
 
         textView = binding.textAcquisition;
@@ -160,6 +163,10 @@ public class AcquisitionFragment extends Fragment{
         return root;
     }
 
+    /**
+     * Methode qui lance un thread qui vient à vrai la variable plotData pour permettre l'affichage de point sans avoir cet effet de flash du téléphone
+     *
+     */
     private void startPlot() {
 
         if (thread != null) {
@@ -182,6 +189,9 @@ public class AcquisitionFragment extends Fragment{
         thread.start();
     }
 
+    /**
+     *     Ajouter une nouvelle valeur du sensor ds notre liste de valeur
+     */
     private void addEntry(SensorEvent event) {
         dataX = lineChartX.getData();
 
@@ -234,6 +244,11 @@ public class AcquisitionFragment extends Fragment{
         mesureList.add(mesure);
     }
 
+    /**
+     * creer un ensemble pour stocker les valeurs enregistrer pour les afficher
+     * @param name
+     * @return
+     */
     private LineDataSet createSet(String name) {
         LineDataSet set = new LineDataSet(null, name);
         set.setDrawCircles(false);
@@ -245,6 +260,9 @@ public class AcquisitionFragment extends Fragment{
         return set;
     }
 
+    /**
+     * Listener sur le sensor pour lui donner le comporterment, ici a chaque fois que ça change on enregistre la valeur et on met a faux plotData
+     */
     private SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -267,6 +285,9 @@ public class AcquisitionFragment extends Fragment{
         super.onResume();
     }
 
+    /**
+     * Pour nettoyer le graphe lorsqu'on quitte l'application ou change de page
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -317,13 +338,18 @@ public class AcquisitionFragment extends Fragment{
         }
     }
 
+    /**
+     * Methode qui affiche une pop up pour parametrer l'acquiisition
+     */
     public void setAcquisition(){
         dialogBuilderSetAcquisition = new AlertDialog.Builder(getContext());
         final View setAnAcquisitionPopUpView = getLayoutInflater().inflate(R.layout.set_an_acquisition, null);
+        //definir la plage de frequence en fonction du tel
         pickRate = setAnAcquisitionPopUpView.findViewById(R.id.pickTheRate);
         pickRate.setMinValue((int) (1 / (1e-6 * accelerometer.getMaxDelay())));
         pickRate.setMaxValue((int) (1 / (1e-6 * accelerometer.getMinDelay())));
 
+        //definir la plage de durée
         pickTime = setAnAcquisitionPopUpView.findViewById(R.id.pickTheTime);
         pickTime.setMinValue(1);
         pickTime.setMaxValue(60);
@@ -396,6 +422,10 @@ public class AcquisitionFragment extends Fragment{
         threadChrono.start();
     }
 
+    /**
+     * enregistrer les informations de l'acquisition auprès du patient et dans un fichier xml
+     *
+     */
     private void saveData(int time, int rate, boolean eyesOpen) {
 
 
@@ -432,6 +462,11 @@ public class AcquisitionFragment extends Fragment{
         }
     }
 
+    /**
+     * lire les informations en dure dans un fichier
+     * @param filename
+     * @return
+     */
     public String readRawData(String filename) {
         FileInputStream fis = null;
         InputStreamReader isr = null;
