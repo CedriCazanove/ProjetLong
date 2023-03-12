@@ -18,7 +18,8 @@ def main(X, Y):
         xData.append(float(i))
     for i in y:
         yData.append(float(i))
-
+        
+    # Plot the figure of the Raw Data collected from the Accelerometer of the phone
     fig = plt.figure()
     plt.xlabel("Axe transversal (m/s²)")
     plt.ylabel("Axe antéro-postérieur (m/s²)")
@@ -50,28 +51,32 @@ def position(X, Y, rate):
     for i in y:
         aZ.append(float(i))
 
+    # Calculate the acquisition time step
     dt = float(1 / float(rate))
-
-    # Use Filter to delete noise
+    ################ Double integration ####################
+    
+    # Double integrate the Accelerometer Data to get the position 
+    # We initialize the speed and the position with 0 
     Data_x =cumtrapz(cumtrapz(aX,dx=dt),dx=dt)
     Data_z =cumtrapz(cumtrapz(aZ,dx=dt),dx=dt)
 
-    # cut frequence
+    ############### Filtre Butterworth ####################
+   
+    # cut frequencies for the filter 
     fc1 = 0.1  # Hz
     fc2 = 20   # Hz
 
     # Nyquist frequence
     f_nyq = 1 /( 2.*(dt))  # Hz
-
-    ############### Filtre Butterworth ####################
-    # Préparation du filtre de Butterworth en passe bande
+    
+    # Preparing the band pass filter for X, Y and Z
     b, a = signal.butter(2, (fc1/f_nyq, fc2/f_nyq), 'bandpass', analog=False)
-    b_y, a_y = signal.butter(4, (fc1/f_nyq, fc2/f_nyq), 'bandpass', analog=False)
-    # Filter
+    
+    # We apply the filter 
     Data_x = signal.filtfilt(b, a, Data_x)
     Data_z = signal.filtfilt(b, a, Data_z)
 
-    # Plot the results 2D
+    # Plot the results 2D of X and Z axis
     fig = plt.figure()
     plt.plot(Data_x,Data_z, linewidth=1, color='r')
     plt.title('Trajectoire du téléphone 2D')
